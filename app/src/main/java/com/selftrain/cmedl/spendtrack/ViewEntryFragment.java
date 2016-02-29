@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -15,6 +16,7 @@ public class ViewEntryFragment extends ListFragment {
 
     public ViewEntryFragment() {
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
