@@ -1,32 +1,35 @@
 package com.selftrain.cmedl.spendtrack;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by chrismedl1 on 16-02-28.
  */
 public class Row {
-    Date mDate;
+    Calendar mDate;
     String mType;
-    int mAmount;
+    float mAmount;
     String mNote;
 
-    public void Row(Date date, String type, int amount, String note) {
-        this.mDate = date;
+    public Row(String type, float amount, String note) {
+        this.mDate = Calendar.getInstance();
         this.mType = type;
         this.mAmount = amount;
         this.mNote = note;
     }
 
-    public Date getDate() {
-        return mDate;
+    public String getDate() {
+        SimpleDateFormat date = new SimpleDateFormat("EEE-MMM-dd");
+        return date.format(mDate.getTime());
     }
 
     public String getType() {
         return mType;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return mAmount;
     }
 

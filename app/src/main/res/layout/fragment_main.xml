@@ -39,9 +39,11 @@
         android:layout_below="@+id/addButton"
         android:layout_centerHorizontal="true"/>
 
+    <!--
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </TableRow>
+    -->
 
 </RelativeLayout>

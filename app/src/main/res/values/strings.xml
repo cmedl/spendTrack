@@ -3,4 +3,22 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_add_entry">AddEntry</string>
     <string name="title_activity_view_entry">ViewEntry</string>
+    <string-array name="spending_types">
+        <item name="Unselected"></item>
+        <item name="Income">Income</item>
+        <item name="HouseOther">HouseOther</item>
+        <item name="FoodPharmacy">Food/Pharmacy</item>
+        <item name="Vacation">Vacation</item>
+        <item name="Activities">Activities</item>
+        <item name="Auto">Auto</item>
+        <item name="Clothes">Clothes</item>
+        <item name="Restaurant">Restaurant</item>
+        <item name="Medical">Medical</item>
+        <item name="Stuff">Stuff</item>
+        <item name="Other">Other</item>
+        <item name="Booze">Booze</item>
+        <item name="Gift">Gift</item>
+        <item name="Charity">Charity</item>
+        <item name="Cash">Cash</item>
+    </string-array>
 </resources>

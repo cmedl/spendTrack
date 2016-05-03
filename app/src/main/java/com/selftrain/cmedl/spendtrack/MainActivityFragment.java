@@ -38,7 +38,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
             viewEntry();
         } else if (v.getId() == R.id.addButton) {
             Log.i(TAG, "ADD BUTTON CLICKY");
-            //addEntry();
+            addEntry();
         } else {
             Log.i(TAG, "MOD/DEL BUTTON CLICK");
         }
@@ -46,6 +46,11 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
 
     void viewEntry() {
         Intent intent = new Intent(getActivity(), ViewEntry.class);
+        startActivity(intent);
+    }
+
+    void addEntry() {
+        Intent intent = new Intent(getActivity(), AddEntry.class);
         startActivity(intent);
     }
 }

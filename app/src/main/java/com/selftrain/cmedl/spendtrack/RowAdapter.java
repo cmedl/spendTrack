@@ -1,14 +1,16 @@
 package com.selftrain.cmedl.spendtrack;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 /**
@@ -27,7 +29,7 @@ public class RowAdapter extends ArrayAdapter<Row> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
-        convertView = inflater.inflate(R.layout.fragment_view_entry, parent, false);
+        convertView = inflater.inflate(R.layout.view_row, parent, false);
 
         Row row = mRowItems[position];
         TextView dateView = (TextView) convertView.findViewById(R.id.date);
@@ -37,8 +39,11 @@ public class RowAdapter extends ArrayAdapter<Row> {
 
         dateView.setText(row.getDate().toString());
         typeView.setText(row.getType());
-        amountView.setText(row.getAmount());
+        amountView.setText(String.format("%.2f", row.getAmount()));
         noteView.setText(row.getNote());
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat date = new SimpleDateFormat("EEE-MMM-dd");
 
         return convertView;
     }
