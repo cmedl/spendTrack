@@ -1,6 +1,8 @@
 package com.selftrain.cmedl.spendtrack;
 
 import android.app.Fragment;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +17,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.selftrain.cmedl.spendtrack.SpendingContract.SpendingEntry;
+
 import org.w3c.dom.Text;
 
 /**
@@ -26,7 +30,8 @@ public class AddEntryFragment extends Fragment
         AdapterView.OnItemSelectedListener,
         TextWatcher {
 
-
+    SpendingEntryDbHelper mDbHelper;
+    SQLiteDatabase mDb;
     CheckBox isCash;
     Spinner type;
     EditText amount;
@@ -66,6 +71,12 @@ public class AddEntryFragment extends Fragment
 
     private void setButtonEnabledIfReady() {
         boolean enable = true;
+        if (mDbHelper == null) {
+            mDbHelper = new SpendingEntryDbHelper(getActivity().getApplicationContext());
+        }
+        if (mDb == null) {
+            mDb = mDbHelper.getWritableDatabase();
+        }
         Log.i(TAG, "setButtonEnabledIfReady");
         if (type.getSelectedItem().toString().isEmpty() ||
                 amount.getText().toString().isEmpty()) {
@@ -96,6 +107,35 @@ public class AddEntryFragment extends Fragment
     public void onClick(View v) {
         Log.i(TAG, "onClick");
         dump();
+        String entryCash = isCash.isChecked() ? "true" : "false";
+        String entryType = type.getSelectedItem().toString();
+        String entryAmount = amount.getText().toString();
+        String entryNote = note.getText().toString();
+        long entryDate = System.currentTimeMillis();
+
+        ContentValues values = new ContentValues();
+        values.put(SpendingEntry.COLUMN_NAME_TYPE, entryType);
+        values.put(SpendingEntry.COLUMN_NAME_AMOUNT, entryAmount);
+        values.put(SpendingEntry.COLUMN_NAME_ISCASH, entryCash);
+        values.put(SpendingEntry.COLUMN_NAME_DATE, entryDate);
+        values.put(SpendingEntry.COLUMN_NAME_NOTE, entryNote);
+
+        long newRowId;
+        newRowId = mDb.insert(
+                SpendingEntry.TABLE_NAME,
+                null,
+                values);
+
+        Log.i(TAG, "...Added column with rowId: " +
+                newRowId + ":" +
+                entryDate + ":" +
+                entryType + ":" +
+                entryAmount + ":" +
+                entryCash + ":" +
+                entryNote);
+
+        getActivity().finish();
+
     }
 
     @Override

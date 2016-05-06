@@ -17,12 +17,11 @@ public class SpendingEntryDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + SpendingEntry.TABLE_NAME + "(" +
                     SpendingEntry._ID + " INTEGER PRIMARY KEY," +
-                    SpendingEntry.COLUMN_NAME_ENTRY_ID + " TEXT, " +
                     SpendingEntry.COLUMN_NAME_TYPE + " TEXT, " +
                     SpendingEntry.COLUMN_NAME_AMOUNT + " TEXT, " +
                     SpendingEntry.COLUMN_NAME_ISCASH + " TEXT, " +
                     SpendingEntry.COLUMN_NAME_DATE + " INTEGER, " +
-                    SpendingEntry.COLUMN_NAME_NOTE + " TEXT, " +
+                    SpendingEntry.COLUMN_NAME_NOTE + " TEXT " +
                     ");";
 
     public SpendingEntryDbHelper(Context context) {

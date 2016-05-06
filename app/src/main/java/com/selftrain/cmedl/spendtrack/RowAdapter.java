@@ -31,14 +31,16 @@ public class RowAdapter extends ArrayAdapter<Row> {
         LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
         convertView = inflater.inflate(R.layout.view_row, parent, false);
 
+        Log.i("RowAdapter", "WE ARE GETTING VIEW: " + position);
         Row row = mRowItems[position];
         TextView dateView = (TextView) convertView.findViewById(R.id.date);
         TextView typeView = (TextView) convertView.findViewById(R.id.type);
         TextView amountView = (TextView) convertView.findViewById(R.id.amount);
         TextView noteView = (TextView) convertView.findViewById(R.id.note);
 
-        dateView.setText(row.getDate().toString());
         typeView.setText(row.getType());
+        dateView.setText(row.getDate().toString());
+
         amountView.setText(String.format("%.2f", row.getAmount()));
         noteView.setText(row.getNote());
 
