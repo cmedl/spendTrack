@@ -33,6 +33,7 @@ public class RowAdapter extends ArrayAdapter<Row> {
 
         Log.i("RowAdapter", "WE ARE GETTING VIEW: " + position);
         Row row = mRowItems[position];
+
         TextView dateView = (TextView) convertView.findViewById(R.id.date);
         TextView typeView = (TextView) convertView.findViewById(R.id.type);
         TextView amountView = (TextView) convertView.findViewById(R.id.amount);
@@ -41,6 +42,7 @@ public class RowAdapter extends ArrayAdapter<Row> {
         typeView.setText(row.getType());
         dateView.setText(row.getDate().toString());
 
+        Log.i("RowAdapter", "DATE = " + row.getDate().toString());
         amountView.setText(String.format("%.2f", row.getAmount()));
         noteView.setText(row.getNote());
 
