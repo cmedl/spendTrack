@@ -2,6 +2,7 @@ package com.selftrain.cmedl.spendtrack;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -9,9 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.selftrain.cmedl.spendtrack.SpendingContract;
 import com.selftrain.cmedl.spendtrack.SpendingContract.SpendingEntry;
+
+import java.util.Calendar;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -39,6 +44,7 @@ public class ViewEntryFragment extends ListFragment {
                 SpendingContract.sortOrder
         );
 
+        float totalSpent = 0;
         Row rowItems[] = null;
         if (c != null) {
             if (c.moveToFirst()) {
@@ -53,12 +59,28 @@ public class ViewEntryFragment extends ListFragment {
                     Long date = c.getLong(c.getColumnIndex(SpendingEntry.COLUMN_NAME_DATE));
                     float f= Float.valueOf(sAmount);
                     rowItems[idx] = new Row(date, type, f, note, iscash);
+                    totalSpent += f;
                     idx++;
                 } while (c.moveToNext());
             }
             c.close();
         }
 
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        float green = 1000/31;
+        float yellow = 1000/31 * 5/4;
+
+        TextView spendingTotal = (TextView) view.findViewById(R.id.spending_total);
+        spendingTotal.setText("Total Spent: " + Float.toString(totalSpent) + " : " +
+                Float.toString(day * green));
+        if (totalSpent / day <= green) {
+            spendingTotal.setBackgroundColor(Color.GREEN);
+        } else if (totalSpent / day <= yellow) {
+            spendingTotal.setBackgroundColor(Color.YELLOW);
+        } else {
+            spendingTotal.setBackgroundColor(Color.RED);
+        }
 
 
         RowAdapter rowAdapter = new RowAdapter(getContext(), rowItems);

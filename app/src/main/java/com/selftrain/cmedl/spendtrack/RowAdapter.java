@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -34,20 +35,20 @@ public class RowAdapter extends ArrayAdapter<Row> {
         Log.i("RowAdapter", "WE ARE GETTING VIEW: " + position);
         Row row = mRowItems[position];
 
+        CheckBox cashView = (CheckBox) convertView.findViewById(R.id.isCash);
         TextView dateView = (TextView) convertView.findViewById(R.id.date);
         TextView typeView = (TextView) convertView.findViewById(R.id.type);
         TextView amountView = (TextView) convertView.findViewById(R.id.amount);
         TextView noteView = (TextView) convertView.findViewById(R.id.note);
 
+        cashView.setChecked(row.mIsCash);
+        cashView.setEnabled(false);
         typeView.setText(row.getType());
         dateView.setText(row.getDate().toString());
 
         Log.i("RowAdapter", "DATE = " + row.getDate().toString());
         amountView.setText(String.format("%.2f", row.getAmount()));
         noteView.setText(row.getNote());
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat date = new SimpleDateFormat("EEE-MMM-dd");
 
         return convertView;
     }

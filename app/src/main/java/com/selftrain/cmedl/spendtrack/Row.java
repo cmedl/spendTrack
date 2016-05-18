@@ -44,4 +44,8 @@ public class Row {
     public String getNote() {
         return mNote;
     }
+
+    public boolean isCash() {
+        return mIsCash;
+    }
 }
