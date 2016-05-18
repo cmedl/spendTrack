@@ -59,8 +59,14 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Choose Date"
+        android:id="@+id/dateButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="SAVE"
-        android:id="@+id/save_button"
-        android:layout_gravity="right" />
+        android:paddingTop="20dp"
+        android:id="@+id/save_button" />
 
 </LinearLayout>

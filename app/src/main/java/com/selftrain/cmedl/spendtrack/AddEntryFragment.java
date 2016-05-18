@@ -1,5 +1,8 @@
 package com.selftrain.cmedl.spendtrack;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,12 +17,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.selftrain.cmedl.spendtrack.SpendingContract.SpendingEntry;
 
-import org.w3c.dom.Text;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -36,7 +42,9 @@ public class AddEntryFragment extends Fragment
     Spinner type;
     EditText amount;
     EditText note;
-    Button button;
+    Button save;
+    Button dateButton;
+    long mEntryDate;
 
     final String TAG = "AddEntry";
     public AddEntryFragment() {
@@ -52,8 +60,10 @@ public class AddEntryFragment extends Fragment
         type = (Spinner) view.findViewById(R.id.inputType);
         amount = (EditText) view.findViewById(R.id.inputAmount);
         note = (EditText) view.findViewById(R.id.inputNote);
-        button = (Button) view.findViewById(R.id.save_button);
-        button.setEnabled(false);
+        save = (Button) view.findViewById(R.id.save_button);
+        dateButton = (Button) view.findViewById(R.id.dateButton);
+
+        save.setEnabled(false);
 
         String[] spendingTypes = getResources().getStringArray(R.array.spending_types);
         ArrayAdapter<String> typeAdapter =
@@ -64,12 +74,13 @@ public class AddEntryFragment extends Fragment
         type.setAdapter(typeAdapter);
 
         type.setOnItemSelectedListener(this);
-        button.setOnClickListener(this);
+        save.setOnClickListener(this);
         amount.addTextChangedListener(this);
+        dateButton.setOnClickListener(this);
         return view;
     }
 
-    private void setButtonEnabledIfReady() {
+    private void setSaveEnabledIfReady() {
         boolean enable = true;
         if (mDbHelper == null) {
             mDbHelper = new SpendingEntryDbHelper(getActivity().getApplicationContext());
@@ -77,13 +88,13 @@ public class AddEntryFragment extends Fragment
         if (mDb == null) {
             mDb = mDbHelper.getWritableDatabase();
         }
-        Log.i(TAG, "setButtonEnabledIfReady");
+        Log.i(TAG, "setSaveEnabledIfReady");
         if (type.getSelectedItem().toString().isEmpty() ||
                 amount.getText().toString().isEmpty()) {
             Log.i(TAG, "Dude, type or amount is empty");
             enable = false;
         }
-        button.setEnabled(enable);
+        save.setEnabled(enable);
     }
     public void dump() {
         boolean entryCash = isCash.isChecked();
@@ -106,18 +117,28 @@ public class AddEntryFragment extends Fragment
     @Override
     public void onClick(View v) {
         Log.i(TAG, "onClick");
+        if (v == dateButton) {
+            dateClick(v);
+        } else if (v == save) {
+            saveClick();
+        }
+    }
+
+    private void saveClick() {
         dump();
         String entryCash = isCash.isChecked() ? "true" : "false";
         String entryType = type.getSelectedItem().toString();
         String entryAmount = amount.getText().toString();
         String entryNote = note.getText().toString();
-        long entryDate = System.currentTimeMillis();
+        if (mEntryDate == 0) {
+            mEntryDate = System.currentTimeMillis();
+        }
 
         ContentValues values = new ContentValues();
         values.put(SpendingEntry.COLUMN_NAME_TYPE, entryType);
         values.put(SpendingEntry.COLUMN_NAME_AMOUNT, entryAmount);
         values.put(SpendingEntry.COLUMN_NAME_ISCASH, entryCash);
-        values.put(SpendingEntry.COLUMN_NAME_DATE, entryDate);
+        values.put(SpendingEntry.COLUMN_NAME_DATE, mEntryDate);
         values.put(SpendingEntry.COLUMN_NAME_NOTE, entryNote);
 
         long newRowId;
@@ -128,7 +149,7 @@ public class AddEntryFragment extends Fragment
 
         Log.i(TAG, "...Added column with rowId: " +
                 newRowId + ":" +
-                entryDate + ":" +
+                mEntryDate + ":" +
                 entryType + ":" +
                 entryAmount + ":" +
                 entryCash + ":" +
@@ -137,20 +158,45 @@ public class AddEntryFragment extends Fragment
         getActivity().finish();
 
     }
+    private void dateClick(View v) {
+        class DatePickerFragment extends DialogFragment
+                implements DatePickerDialog.OnDateSetListener {
 
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                return new DatePickerDialog(getActivity(), this, year, month, day);
+            }
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                Log.i(TAG, "MEDL onDateSet: " + year + " " + month + " " + day);
+                Calendar calendar = new GregorianCalendar(year, month , day);
+                Date date = calendar.getTime();
+                mEntryDate = date.getTime();
+
+            }
+        }
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         Log.i(TAG, "onItemSelected" +
                 "");
         dump();
-        setButtonEnabledIfReady();
+        setSaveEnabledIfReady();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         Log.i(TAG, "Dude, onNothingSelected............................");
         dump();
-        setButtonEnabledIfReady();
+        setSaveEnabledIfReady();
     }
 
     @Override
@@ -165,7 +211,7 @@ public class AddEntryFragment extends Fragment
     public void afterTextChanged(Editable s) {
         Log.i(TAG, "afterTextChanged");
         dump();
-        setButtonEnabledIfReady();
+        setSaveEnabledIfReady();
     }
 
 }
