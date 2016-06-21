@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.selftrain.cmedl.spendtrack.SpendingContract;
 import com.selftrain.cmedl.spendtrack.SpendingContract.SpendingEntry;
 
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -57,10 +59,24 @@ public class ViewEntryFragment extends ListFragment {
                     String note = c.getString(c.getColumnIndex(SpendingEntry.COLUMN_NAME_NOTE));
                     String iscash = c.getString(c.getColumnIndex(SpendingEntry.COLUMN_NAME_ISCASH));
                     Long date = c.getLong(c.getColumnIndex(SpendingEntry.COLUMN_NAME_DATE));
-                    float f= Float.valueOf(sAmount);
-                    rowItems[idx] = new Row(date, type, f, note, iscash);
-                    totalSpent += f;
-                    idx++;
+
+                    DateFormat dateformat = DateFormat.getDateInstance();
+                    Date mydate = new Date(date);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTimeInMillis(date);
+                    int month = cal.get(Calendar.MONTH);
+
+
+
+                    Log.i("MEDL", ":month:" + month);
+                    if (month == 5) {
+                        float f = Float.valueOf(sAmount);
+                        rowItems[idx] = new Row(date, type, f, note, iscash);
+                        if (iscash.equals("false")) {
+                            totalSpent += f;
+                        }
+                        idx++;
+                    }
                 } while (c.moveToNext());
             }
             c.close();
