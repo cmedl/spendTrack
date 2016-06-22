@@ -39,6 +39,7 @@ public class AddEntryFragment extends Fragment
     SpendingEntryDbHelper mDbHelper;
     SQLiteDatabase mDb;
     CheckBox isCash;
+    CheckBox isPersonal;
     Spinner type;
     EditText amount;
     EditText note;
@@ -57,6 +58,7 @@ public class AddEntryFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_add_entry, container, false);
 
         isCash = (CheckBox) view.findViewById(R.id.isCash);
+        isPersonal = (CheckBox) view.findViewById(R.id.isPersonal);
         type = (Spinner) view.findViewById(R.id.inputType);
         amount = (EditText) view.findViewById(R.id.inputAmount);
         note = (EditText) view.findViewById(R.id.inputNote);
@@ -64,6 +66,7 @@ public class AddEntryFragment extends Fragment
         dateButton = (Button) view.findViewById(R.id.dateButton);
 
         save.setEnabled(false);
+        isPersonal.setChecked(true);
 
         String[] spendingTypes = getResources().getStringArray(R.array.spending_types);
         ArrayAdapter<String> typeAdapter =
@@ -127,6 +130,7 @@ public class AddEntryFragment extends Fragment
     private void saveClick() {
         dump();
         String entryCash = isCash.isChecked() ? "true" : "false";
+        String entryPersonal = isPersonal.isChecked() ? "true" : "false";
         String entryType = type.getSelectedItem().toString();
         String entryAmount = amount.getText().toString();
         String entryNote = note.getText().toString();
@@ -138,6 +142,7 @@ public class AddEntryFragment extends Fragment
         values.put(SpendingEntry.COLUMN_NAME_TYPE, entryType);
         values.put(SpendingEntry.COLUMN_NAME_AMOUNT, entryAmount);
         values.put(SpendingEntry.COLUMN_NAME_ISCASH, entryCash);
+        values.put(SpendingEntry.COLUMN_NAME_ISPERSONAL, entryPersonal);
         values.put(SpendingEntry.COLUMN_NAME_DATE, mEntryDate);
         values.put(SpendingEntry.COLUMN_NAME_NOTE, entryNote);
 
@@ -153,7 +158,8 @@ public class AddEntryFragment extends Fragment
                 entryType + ":" +
                 entryAmount + ":" +
                 entryCash + ":" +
-                entryNote);
+                entryNote + ":" +
+                entryPersonal);
 
         getActivity().finish();
 

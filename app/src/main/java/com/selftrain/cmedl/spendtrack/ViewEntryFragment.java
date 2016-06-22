@@ -38,6 +38,9 @@ public class ViewEntryFragment extends ListFragment {
 
         SpendingEntryDbHelper mDbHelper = new SpendingEntryDbHelper(getActivity().getApplicationContext());
         SQLiteDatabase mDb = mDbHelper.getReadableDatabase();
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        int month = cal.get(Calendar.MONTH);
 
         Cursor c = mDb.query(
                 SpendingEntry.TABLE_NAME,
@@ -58,11 +61,9 @@ public class ViewEntryFragment extends ListFragment {
                     String sAmount = c.getString(c.getColumnIndex(SpendingEntry.COLUMN_NAME_AMOUNT));
                     String note = c.getString(c.getColumnIndex(SpendingEntry.COLUMN_NAME_NOTE));
                     String iscash = c.getString(c.getColumnIndex(SpendingEntry.COLUMN_NAME_ISCASH));
+                    String ispersonal = c.getString(c.getColumnIndex(SpendingEntry.COLUMN_NAME_ISPERSONAL));
                     Long date = c.getLong(c.getColumnIndex(SpendingEntry.COLUMN_NAME_DATE));
 
-                    DateFormat dateformat = DateFormat.getDateInstance();
-                    Date mydate = new Date(date);
-                    Calendar cal = Calendar.getInstance();
                     cal.setTimeInMillis(date);
                     int month = cal.get(Calendar.MONTH);
 
@@ -71,7 +72,7 @@ public class ViewEntryFragment extends ListFragment {
                     Log.i("MEDL", ":month:" + month);
                     if (month == 5) {
                         float f = Float.valueOf(sAmount);
-                        rowItems[idx] = new Row(date, type, f, note, iscash);
+                        rowItems[idx] = new Row(date, type, f, note, iscash, ispersonal);
                         if (iscash.equals("false")) {
                             totalSpent += f;
                         }

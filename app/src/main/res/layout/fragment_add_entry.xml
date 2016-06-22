@@ -20,11 +20,16 @@
             android:layout_height="wrap_content"
             android:text="CashPayment"
             android:id="@+id/isCash"/>
-        <Spinner
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/inputType"/>
+            android:text="On Personal Budget"
+            android:id="@+id/isPersonal"/>
     </LinearLayout>
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/inputType"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

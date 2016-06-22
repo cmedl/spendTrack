@@ -2,6 +2,7 @@ package com.selftrain.cmedl.spendtrack;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,10 +43,15 @@ public class RowAdapter extends ArrayAdapter<Row> {
             TextView amountView = (TextView) convertView.findViewById(R.id.amount);
             TextView noteView = (TextView) convertView.findViewById(R.id.note);
 
-            cashView.setChecked(row.mIsCash);
+            cashView.setChecked(row.isCash());
             cashView.setEnabled(false);
             typeView.setText(row.getType());
             dateView.setText(row.getDate().toString());
+
+            if (row.isPersonal()) {
+                //convertView.setBackground(Color.GRAY);
+            }
+
 
             Log.i("RowAdapter", "DATE = " + row.getDate().toString());
             amountView.setText(String.format("%.2f", row.getAmount()));

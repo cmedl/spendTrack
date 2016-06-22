@@ -15,7 +15,8 @@ public class SpendingContract {
             SpendingEntry.COLUMN_NAME_NOTE,
             SpendingEntry.COLUMN_NAME_AMOUNT,
             SpendingEntry.COLUMN_NAME_ISCASH,
-            SpendingEntry.COLUMN_NAME_DATE
+            SpendingEntry.COLUMN_NAME_DATE,
+            SpendingEntry.COLUMN_NAME_ISPERSONAL
     };
 
     public static String sortOrder =
@@ -28,5 +29,6 @@ public class SpendingContract {
         public static final String COLUMN_NAME_AMOUNT = "amount";
         public static final String COLUMN_NAME_ISCASH = "iscash";
         public static final String COLUMN_NAME_DATE = "date";
+        public static final String COLUMN_NAME_ISPERSONAL = "ispersonal";
     }
 }

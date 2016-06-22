@@ -15,13 +15,15 @@ public class Row {
     float mAmount;
     String mNote;
     boolean mIsCash;
+    boolean mIsPersonal;
 
-    public Row(Long date, String type, float amount, String note, String isCash) {
+    public Row(Long date, String type, float amount, String note, String isCash, String isPersonal) {
         this.mDate = date;
         this.mType = type;
         this.mAmount = amount;
         this.mNote = note;
         this.mIsCash = isCash.equals("true") ? true : false;
+        this.mIsPersonal = isPersonal.equals("true") ? true : false;
     }
 
     public String getDate() {
@@ -48,4 +50,9 @@ public class Row {
     public boolean isCash() {
         return mIsCash;
     }
+
+    public boolean isPersonal() {
+        return mIsPersonal;
+    }
+
 }
