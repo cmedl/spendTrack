@@ -16,6 +16,7 @@ import com.selftrain.cmedl.spendtrack.SpendingContract;
 import com.selftrain.cmedl.spendtrack.SpendingContract.SpendingEntry;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -50,12 +51,10 @@ public class ViewEntryFragment extends ListFragment {
         );
 
         float totalSpent = 0;
-        Row rowItems[] = null;
+        ArrayList<Row> rows = new ArrayList<>();
+
         if (c != null) {
             if (c.moveToFirst()) {
-                int size = c.getCount();
-                rowItems = new Row[size];
-                int idx = 0;
                 do {
                     String type = c.getString(c.getColumnIndex(SpendingEntry.COLUMN_NAME_TYPE));
                     String sAmount = c.getString(c.getColumnIndex(SpendingEntry.COLUMN_NAME_AMOUNT));
@@ -65,18 +64,17 @@ public class ViewEntryFragment extends ListFragment {
                     Long date = c.getLong(c.getColumnIndex(SpendingEntry.COLUMN_NAME_DATE));
 
                     cal.setTimeInMillis(date);
-                    int month = cal.get(Calendar.MONTH);
+                    int entryMonth = cal.get(Calendar.MONTH);
 
 
 
                     Log.i("MEDL", ":month:" + month);
-                    if (month == 5) {
+                    if (month == entryMonth) {
                         float f = Float.valueOf(sAmount);
-                        rowItems[idx] = new Row(date, type, f, note, iscash, ispersonal);
-                        if (iscash.equals("false")) {
+                        rows.add(new Row(date, type, f, note, iscash, ispersonal));
+                        if (iscash.equals("false") && (ispersonal.equals("true"))) {
                             totalSpent += f;
                         }
-                        idx++;
                     }
                 } while (c.moveToNext());
             }
@@ -89,8 +87,9 @@ public class ViewEntryFragment extends ListFragment {
         float yellow = 1000/31 * 5/4;
 
         TextView spendingTotal = (TextView) view.findViewById(R.id.spending_total);
-        spendingTotal.setText("Total Spent: " + Float.toString(totalSpent) + " : " +
-                Float.toString(day * green));
+        spendingTotal.setText("Total Spent: " +
+                String.format(java.util.Locale.US,"%.2f",totalSpent) + " : " +
+                String.format(java.util.Locale.US,"%.2f", day * green));
         if (totalSpent / day <= green) {
             spendingTotal.setBackgroundColor(Color.GREEN);
         } else if (totalSpent / day <= yellow) {
@@ -100,7 +99,7 @@ public class ViewEntryFragment extends ListFragment {
         }
 
 
-        RowAdapter rowAdapter = new RowAdapter(getContext(), rowItems);
+        RowAdapter rowAdapter = new RowAdapter(getContext(), rows);
         ListView lv = (ListView) view.findViewById(android.R.id.list);
         // http://techlovejump.com/android-listview-with-checkbox/
         // http://techlovejump.com/android-multicolumn-listview/

@@ -1,5 +1,6 @@
 package com.selftrain.cmedl.spendtrack;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -43,11 +44,10 @@ public class SpendingEntryDbHelper extends SQLiteOpenHelper {
                         "ALTER TABLE " + SpendingEntry.TABLE_NAME +
                                 " ADD COLUMN " + SpendingEntry.COLUMN_NAME_ISPERSONAL +
                                 " TEXT;";
-                final String UPDATE_ISPERSONAL =
-                        "UPDATE " + SpendingEntry.TABLE_NAME +
-                                " SET " + SpendingEntry.COLUMN_NAME_ISPERSONAL + "='false'";
                 db.execSQL(ADD_ISPERSONAL_COLUMN);
-                db.execSQL(UPDATE_ISPERSONAL);
+                ContentValues values = new ContentValues();
+                values.put(SpendingEntry.COLUMN_NAME_ISPERSONAL, "true");
+                db.update(SpendingEntry.TABLE_NAME, values, null, null);
                 break;
             default:
                 throw new IllegalStateException("onUpgrade()  unexpected oldVersion " + oldVersion);

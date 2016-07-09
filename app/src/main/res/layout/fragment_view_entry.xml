@@ -11,15 +11,35 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="asdfasdf"
-        android:id="@+id/spending_total" />
+        android:id="@+id/spending_total"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:textAlignment="center" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Month"
+        android:layout_below="@+id/spending_total"
+        android:id="@+id/change_month"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Entry"
+        android:id="@+id/addButton"
+        android:layout_below="@+id/spending_total"
+        android:layout_alignParentRight="true"/>
 
     <ListView android:id="@android:id/list"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_below="@id/spending_total"
-              />
+              android:layout_below="@id/change_month"
+        android:paddingTop="10dp" />
 
 </RelativeLayout>

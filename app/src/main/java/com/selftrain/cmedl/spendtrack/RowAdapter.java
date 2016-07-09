@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -20,12 +21,12 @@ import java.util.Calendar;
  */
 public class RowAdapter extends ArrayAdapter<Row> {
     Context mContext;
-    public Row[] mRowItems = null;
+    public ArrayList<Row> mRowItems;
 
-    public RowAdapter(Context context, Row[] rowItems) {
-        super(context, R.layout.view_row, rowItems);
+    public RowAdapter(Context context, ArrayList<Row> rows) {
+        super(context, R.layout.view_row, rows);
         this.mContext = context;
-        this.mRowItems = rowItems;
+        this.mRowItems = rows;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class RowAdapter extends ArrayAdapter<Row> {
         convertView = inflater.inflate(R.layout.view_row, parent, false);
 
         Log.i("RowAdapter", "WE ARE GETTING VIEW: " + position);
-        Row row = mRowItems[position];
+        Row row = mRowItems.get(position);
 
         if (row != null) {
             CheckBox cashView = (CheckBox) convertView.findViewById(R.id.isCash);
@@ -48,8 +49,8 @@ public class RowAdapter extends ArrayAdapter<Row> {
             typeView.setText(row.getType());
             dateView.setText(row.getDate().toString());
 
-            if (row.isPersonal()) {
-                //convertView.setBackground(Color.GRAY);
+            if (!row.isPersonal()) {
+                convertView.setBackgroundColor(Color.LTGRAY);
             }
 
 
