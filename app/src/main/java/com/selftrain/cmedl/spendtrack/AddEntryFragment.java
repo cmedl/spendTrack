@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.ContentValues;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
@@ -92,7 +93,11 @@ public class AddEntryFragment extends Fragment
             mDb = mDbHelper.getWritableDatabase();
         }
         Log.i(TAG, "setSaveEnabledIfReady");
+        Resources res = getResources();
+        String[] items = res.getStringArray(R.array.spending_types);
+
         if (type.getSelectedItem().toString().isEmpty() ||
+                type.getSelectedItem().toString().equals(items[0]) ||
                 amount.getText().toString().isEmpty()) {
             Log.i(TAG, "Dude, type or amount is empty");
             enable = false;

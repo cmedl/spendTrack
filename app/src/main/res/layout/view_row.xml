@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:layout_height="wrap_content">
 
 
@@ -9,7 +10,9 @@
         android:layout_width="0dp"
         android:layout_weight=".10"
         android:layout_height="wrap_content"
-        android:id="@+id/isCash"/>
+        android:id="@+id/isCash"
+        android:singleLine="false"
+        android:buttonTint="#8f8f8f" />
 
     <TextView
         android:layout_width="0dp"
@@ -17,7 +20,8 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:layout_gravity="fill"
-        android:id="@+id/date" />
+        android:id="@+id/date"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="0dp"
@@ -25,6 +29,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:layout_gravity="fill"
+        android:textColor="#000000"
         android:id="@+id/type"/>
 
     <TextView
@@ -33,6 +38,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:layout_gravity="fill"
+        android:textColor="#000000"
         android:id="@+id/amount" />
 
     <TextView
@@ -41,6 +47,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:layout_gravity="fill"
+        android:textColor="#000000"
         android:id="@+id/note"/>
 
 

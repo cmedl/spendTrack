@@ -31,7 +31,8 @@ public class RowAdapter extends ArrayAdapter<Row> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
+        LayoutInflater inflater =
+                (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.view_row, parent, false);
 
         Log.i("RowAdapter", "WE ARE GETTING VIEW: " + position);

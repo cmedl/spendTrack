@@ -29,7 +29,9 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/inputType"/>
+        android:id="@+id/inputType"
+        android:backgroundTint="#797878"
+        android:contentDescription="Select" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
